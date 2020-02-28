@@ -3,7 +3,7 @@ var UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  is_admin : {
+  isAdmin : {
     type: Boolean,
     default: false
   }

@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="074adcf3-1d5b-4329-aa0f-f2aee4741960" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/middleware/base_error_handler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/VerifyToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/auth/VerifyToken.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/note-controllers.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/note-controllers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/notes-route.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/notes-route.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,8 +62,17 @@
       <option name="presentableId" value="Default" />
       <updated>1582663469153</updated>
       <workItem from="1582663471739" duration="2878000" />
-      <workItem from="1582796148770" duration="6835000" />
+      <workItem from="1582796148770" duration="6861000" />
+      <workItem from="1582894348170" duration="1772000" />
     </task>
+    <task id="LOCAL-00001" summary="add new endpoints">
+      <created>1582818631129</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1582818631129</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -78,5 +86,27 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add new endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new endpoints" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="522" y="96" width="865" height="912" key="CommitChangelistDialog2" timestamp="1582818631057">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="522" y="96" width="865" height="912" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1582818631057" />
+    <state x="555" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1582818632177">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="555" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1582818632177" />
+    <state x="606" y="263" width="707" height="578" key="find.popup" timestamp="1582894436440">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="606" y="263" width="707" height="578" key="find.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582894436440" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1582894509153">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582894509153" />
   </component>
 </project>
