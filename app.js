@@ -7,12 +7,11 @@ global.__root   = __dirname + '/';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 const noteRoutes = require('./routes/notes-route');
+const colorRoutes = require('./routes/color-routes');
+const authContollers = require('./auth/AuthController');
 
 app.use('/api/v1/', noteRoutes);
-var UserController = require(__root + 'user/UserController');
-app.use('/api/users', UserController);
-
-var AuthController = require(__root + 'auth/AuthController');
-app.use('/api/auth', AuthController);
+app.use('/api/v1/', colorRoutes);
+app.use('/api/auth', authContollers);
 
 module.exports = app;

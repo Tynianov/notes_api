@@ -1,5 +1,6 @@
 const Note = require('../models/Note');
 const User = require('../models/User');
+const Color = require('../models/Color');
 
 function errorsHandling(res, err, obj) {
     if (err)
@@ -10,25 +11,29 @@ function errorsHandling(res, err, obj) {
 
 module.exports.createNote = function (req, res, next) {
     let user = req.user;
-    Note.create({
-        title: req.body.title,
-        text: req.body.text,
-        color: req.body.color,
-        created: req.body.created,
-        notify_at: req.body.notify_at,
-        user: user
-    }, function (err) {
+    Color.findById(req.body.color, function (err, color) {
         if (err)
             return res.status(400).json({errors: err});
-        res.json({message: 'Note created successfully'})
+        console.log(color);
+        Note.create({
+            title: req.body.title,
+            text: req.body.text,
+            color: color,
+            notify_at: req.body.notify_at,
+            user: user
+        }, function (err) {
+            if (err)
+                return res.status(400).json({errors: err});
+            res.json({message: 'Note created successfully'})
+        });
     });
 };
 
 module.exports.getNotesList = function (req, res, next) {;
-    Note.find({user: req.user}, function(err, notes){
-        if (err)
-            return res.status(500).json({errors: err});
-        res.json({notes: notes});
+    Note.find({user: req.user}).sort('-created').exec(function (err, notes) {
+       if (err)
+           return res.status(500).json({message: err});
+       res.json({notes: notes})
     });
 };
 
@@ -71,6 +76,5 @@ module.exports.getAllNotes = function (req, res, next) {
         if (err)
             return res.status(500).json({errors: err});
         res.json({notes: notes});
-    })
-
-}
+    });
+};

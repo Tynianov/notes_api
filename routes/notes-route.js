@@ -11,6 +11,7 @@ router.post('/note', [
     verifyToken
 ], controllers.createNote);
 
+router.get('/note/list', verifyToken, controllers.getAllNotes);
 router.get('/note', verifyToken, controllers.getNotesList);
 router.get('/note/:id', verifyToken, controllers.getNoteByID);
 router.put('/note/:id', verifyToken, controllers.updateNoteById);

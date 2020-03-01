@@ -10,10 +10,6 @@ const NoteSchema = new Schema({
         type: String,
         required: true
     },
-    color: {
-        type: String,
-        required: true
-    },
     created: {
         type: Date,
         default: Date.now
@@ -25,6 +21,11 @@ const NoteSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",
+        required: true
+    },
+    color: {
+        type: Schema.Types.ObjectId,
+        ref: "Color",
         required: true
     }
 
