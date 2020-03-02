@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const NoteSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: [true, 'Note title is required'],
+        maxLength: 50
     },
     text: {
         type: String,
-        required: true
+        required: [true, 'Note text is required'],
+        maxLength: 256
     },
     created: {
         type: Date,
@@ -26,7 +28,11 @@ const NoteSchema = new Schema({
     color: {
         type: Schema.Types.ObjectId,
         ref: "Color",
-        required: true
+        required: false
+    },
+    isActive: {
+        type: Boolean,
+        default: true
     }
 
 });

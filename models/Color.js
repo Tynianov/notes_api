@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ColorSchema = new Schema({
-    label: String,
-    color: String,
+    label: {
+        type: String,
+        required: [true, 'Label is required']
+    },
+    color: {
+        type: String,
+        required: [true, 'Color is required']
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

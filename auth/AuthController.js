@@ -46,12 +46,13 @@ router.post('/register', function(req, res) {
       var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
       User.create({
-            name : req.body.name,
+            firstName : req.body.firstName,
+            lastName : req.body.lastName,
             email : req.body.email,
             password : hashedPassword
           },
           function (err, user) {
-            if (err) return res.status(500).send("There was a problem registering the user`.");
+            if (err) return res.status(500).json({errors: err});
 
             var token = jwt.sign({ id: user._id }, config.secret);
 
@@ -60,7 +61,7 @@ router.post('/register', function(req, res) {
     });
 });
 
-router.get('/me', VerifyToken, function(req, res, next) {
+router.get('/profile', VerifyToken, function(req, res, next) {
 
   User.findById(req.userId, { password: 0 }, function (err, user) {
     if (err) return res.status(500).send("There was a problem finding the user.");

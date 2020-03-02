@@ -14,7 +14,6 @@ module.exports.createNote = function (req, res, next) {
     Color.findById(req.body.color, function (err, color) {
         if (err)
             return res.status(400).json({errors: err});
-        console.log(color);
         Note.create({
             title: req.body.title,
             text: req.body.text,
@@ -29,8 +28,8 @@ module.exports.createNote = function (req, res, next) {
     });
 };
 
-module.exports.getNotesList = function (req, res, next) {;
-    Note.find({user: req.user}).sort('-created').exec(function (err, notes) {
+module.exports.getNotesList = function (req, res, next) {
+    Note.find({user: req.user, isActive: true}).sort('-created').exec(function (err, notes) {
        if (err)
            return res.status(500).json({message: err});
        res.json({notes: notes})
