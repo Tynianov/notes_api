@@ -1,9 +1,11 @@
 var express = require('express');
+const cors = require('cors');
 var app = express();
 const bodyParser = require('body-parser');
 var db = require('./db');
 global.__root   = __dirname + '/';
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 const noteRoutes = require('./routes/notes-route');
