@@ -9,7 +9,10 @@ var UserSchema = new mongoose.Schema({
     required: true
   },
   email: String,
-  password: String,
+  password: {
+    type:String,
+    minLength: 8
+  },
   isAdmin : {
     type: Boolean,
     default: false

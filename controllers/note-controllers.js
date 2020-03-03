@@ -2,13 +2,6 @@ const Note = require('../models/Note');
 const User = require('../models/User');
 const Color = require('../models/Color');
 
-function errorsHandling(res, err, obj) {
-    if (err)
-        return res.status(500).json({errors: err});
-    if (!obj)
-        return res.status(404).json({note: "Note not found"});
-}
-
 module.exports.createNote = function (req, res, next) {
     let user = req.user;
     Color.findById(req.body.color, function (err, color) {

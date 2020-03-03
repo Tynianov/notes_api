@@ -1,17 +1,45 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-
 var VerifyToken = require('./VerifyToken');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 var User = require('../models/User');
-
-
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../config');
+const { body, validationResult } = require('express-validator');
+
+function validateSignUp(){
+    return [
+        body('password', 'Password must be at least 8 characters long').isLength({min: 8}),
+        body('email').custom(value => {return User.findOne({email: value}).then(user => {
+            if (user)
+                return Promise.reject('User with this email already exists!')
+        })}),
+        body('passwordConfirm').custom((value, {req}) => {
+            if (value !== req.body.password){
+                return Promise.reject("Passwords don't match")
+            }
+            return true;
+        }),
+        body(['firstName', 'lastName'], 'This field is required').notEmpty()
+    ]
+}
+
+const validate = (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        return next()
+    }
+    const extractedErrors = [];
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }));
+
+    return res.status(422).json({
+        errors: extractedErrors,
+    })
+};
 
 router.post('/login', function(req, res) {
 
@@ -35,30 +63,23 @@ router.get('/logout', function(req, res) {
   res.status(200).send({ auth: false, token: null });
 });
 
-router.post('/register', function(req, res) {
+router.post('/register', validateSignUp(), validate, function(req, res) {
 
-  User.findOne({email: req.body.email}, function (err, user) {
-      if (err)
-        return res.status(500).json({errors: err});
-      if (user)
-        return res.status(400).json({message: 'User with this email already exists'});
+  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
-      var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+  User.create({
+        firstName : req.body.firstName,
+        lastName : req.body.lastName,
+        email : req.body.email,
+        password : hashedPassword
+      },
+      function (err, user) {
+        if (err) return res.status(500).json({errors: err});
 
-      User.create({
-            firstName : req.body.firstName,
-            lastName : req.body.lastName,
-            email : req.body.email,
-            password : hashedPassword
-          },
-          function (err, user) {
-            if (err) return res.status(500).json({errors: err});
+        var token = jwt.sign({ id: user._id }, config.secret);
 
-            var token = jwt.sign({ id: user._id }, config.secret);
-
-            res.status(200).send({ auth: true, token: token });
-          });
-    });
+        res.status(200).send({ auth: true, token: token });
+      });
 });
 
 router.get('/profile', VerifyToken, function(req, res, next) {
