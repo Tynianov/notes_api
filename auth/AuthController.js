@@ -10,6 +10,7 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../config');
 const { body, validationResult } = require('express-validator');
+const LogEntry = require('../models/LogEntry');
 
 function validateSignUp(){
     return [
@@ -49,6 +50,11 @@ router.post('/login', function(req, res) {
 
     var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
     if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+
+    LogEntry.create({user: user, ipAddress: req.ip}, function (err, obj) {
+        if (err)
+            return res.status(500)
+    });
 
     var token = jwt.sign({ id: user._id }, config.secret, {
       expiresIn: 86400 // expires in 24 hours

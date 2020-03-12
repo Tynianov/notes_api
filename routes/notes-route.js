@@ -10,5 +10,6 @@ router.get('/note', verifyToken, controllers.getNotesList);
 router.get('/note/:id', verifyToken, controllers.getNoteByID);
 router.put('/note/:id', verifyToken, controllers.updateNoteById);
 router.delete('/note/:id', verifyToken, controllers.deleteNoteById);
+router.post('/note/:id', verifyToken, controllers.deactivateNote);
 
 module.exports = router;
