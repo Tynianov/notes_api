@@ -29,6 +29,25 @@ function validateSignUp(){
     ]
 }
 
+function validatePasswordChange() {
+    return [
+        body('password').custom((value, {req}) => {
+            let hashedPassword = bcrypt.hashSync(value, 8);
+            let user = req.user;
+            if (!bcrypt.compareSync(req.body.password, user.password)){
+                return Promise.reject("You've entered wrong password")
+            }
+            return true;
+        }),
+        body('newPassword').custom((value, {req}) => {
+            if (value !== req.body.newPasswordConfirm){
+                return Promise.reject("Passwords does not match");
+            }
+            return true;
+        })
+    ]
+}
+
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
@@ -56,9 +75,7 @@ router.post('/login', function(req, res) {
             return res.status(500)
     });
 
-    var token = jwt.sign({ id: user._id }, config.secret, {
-      expiresIn: 86400 // expires in 24 hours
-    });
+    var token = jwt.sign({ id: user._id });
 
     res.status(200).send({ auth: true, token: token });
   });
@@ -96,6 +113,18 @@ router.get('/profile', VerifyToken, function(req, res, next) {
     res.status(200).send(user);
   });
 
+});
+
+router.post('/password-reset', VerifyToken, validatePasswordChange(),  function (req, res) {
+    let user = req.user;
+    let newPassword = bcrypt.hashSync(req.body.newPassword, 8);
+    user.password = newPassword;
+    user.save(function (err) {
+        if (err)
+            return res.res(500).json({mesage: "Error occurred while changed password"});
+
+        return res.status(200).json({message: 'Password changed'});
+    });
 });
 
 module.exports = router;
