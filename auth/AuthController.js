@@ -75,7 +75,7 @@ router.post('/login', function(req, res) {
             return res.status(500)
     });
 
-    var token = jwt.sign({ id: user._id });
+    var token = jwt.sign({ id: user._id }, config.secret);
 
     res.status(200).send({ auth: true, token: token });
   });
